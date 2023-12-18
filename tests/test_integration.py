@@ -12,6 +12,13 @@ module.py:5:14: E221 multiple spaces before operator
 2
 """.strip()
 
+expected_local_plugin = (fr"""
+module.py:1:2: EL001 Local plugin
+module.py:1:71: E501 line too long (77 > 70 characters)
+module.py:5:14: E221 multiple spaces before operator
+3
+""".strip())
+
 
 def capture(command, folder):
     if isinstance(folder, str):
@@ -90,3 +97,15 @@ def test_empty_tool_section(command):
 def test_run_main(command):
     output = capture([python, '-m', command, 'module.py'], 'config_mixed')
     assert output == expected
+
+
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_config_flake8_local_plugin(command):
+    output = capture([command, 'module.py'], 'config_flake8_local_plugin')
+    assert output == expected_local_plugin
+
+
+@mark.parametrize('command', ['flake8', 'flake8p'])
+def test_config_pyproject_local_plugin(command):
+    output = capture([command, 'module.py'], 'config_pyproject_local_plugin')
+    assert output == expected_local_plugin

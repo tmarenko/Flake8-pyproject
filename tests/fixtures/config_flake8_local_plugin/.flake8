@@ -1,0 +1,16 @@
+[flake8]
+ignore =
+    # Missing whitespace after ',', ';', or ':'.
+    E231,
+    # Multiple spaces after ','.
+    E241,
+per-file-ignores =
+    module.py:F401
+max-line-length = 70
+count = true
+
+[flake8:local-plugins]
+extension =
+    N = flake8_plugin:LocalPlugin
+paths =
+    ./plugin
